@@ -23,7 +23,6 @@ $(document).ready(function(){
       var tickets = 0;
       var earned = 0;
       var oldestBlock = 0;
-      var roi = 0;
 
       for (let i=0; i<ticketData.length;++i) {
         // Find oldest block on ticket address
@@ -55,7 +54,6 @@ $(document).ready(function(){
         elapsedDaysRaw = elapsedTime/60/60/24;
         elapsedWholeDays= Math.trunc(elapsedTime/60/60/24);
         extraHours = Math.round((elapsedDaysRaw - elapsedWholeDays)*24);
-        console.log(elapsedWholeDays+" and "+extraHours);
 
         // estimated returns
         avgDailyEarn = earned / elapsedDaysRaw;
