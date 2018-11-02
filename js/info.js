@@ -33,10 +33,10 @@ $(document).ready(function(){
         // add up all unspent and subract all spent
         if (ticketData[i].vout[0].scriptPubKey.type == "stakesubmission") { 
           staking += ticketData[i].vout[0].value;
-          tickets += tickets;
+          tickets += 1;
         } else {
           staking -= ticketData[i].vin[1].amountin;
-          tickets -= tickets;
+          tickets -= 1;
         };
 
         // add up all stakebase rewards
