@@ -90,7 +90,7 @@ $(document).ready(function(){
                     'Staking for <b>'+infoHash.days_since+' days '+infoHash.hours_since+' hours</b>, since '+infoHash.oldest_block_day +
                     '<h1>Returns</h1>' +
                     'Staked: <b>' +infoHash.total_staking+ ' DCR</b><br>' +
-                    '# of active Tickets: <b>' +number_of_tickets+ ' tickets</b><br>' +
+                    '# of active Tickets: <b>' +infoHash.number_of_tickets+ ' tickets</b><br>' +
                     'Earned: <b>' +infoHash.total_earned+ ' DCR</b><br>' +
                     'Current ROI: <b>' +infoHash.current_roi+ '</b><br>' +
                     '<h1>Projections</h1>' +
