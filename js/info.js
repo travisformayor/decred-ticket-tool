@@ -20,6 +20,7 @@ $(document).ready(function(){
     var decredTicketAPI = "https://explorer.dcrdata.org/api/address/"+ticketAddress+"/count/"+maxCheck+"/raw";
     $.getJSON(decredTicketAPI, function (ticketData) {
       var staking = 0;
+      var tickets = 0;
       var earned = 0;
       var oldestBlock = 0;
       var roi = 0;
@@ -32,8 +33,10 @@ $(document).ready(function(){
         // add up all unspent and subract all spent
         if (ticketData[i].vout[0].scriptPubKey.type == "stakesubmission") { 
           staking += ticketData[i].vout[0].value;
+          tickets += tickets;
         } else {
           staking -= ticketData[i].vin[1].amountin;
+          tickets -= tickets;
         };
 
         // add up all stakebase rewards
@@ -74,7 +77,8 @@ $(document).ready(function(){
           max_checked: maxCheck,
           oldest_block_day: new Date(blockTime * 1000),
           days_since: elapsedWholeDays,
-          hours_since: extraHours
+          hours_since: extraHours,
+          number_of_tickets: tickets
         };
         console.log(infoHash);
         $("#display-data").html("");
@@ -86,6 +90,7 @@ $(document).ready(function(){
                     'Staking for <b>'+infoHash.days_since+' days '+infoHash.hours_since+' hours</b>, since '+infoHash.oldest_block_day +
                     '<h1>Returns</h1>' +
                     'Staked: <b>' +infoHash.total_staking+ ' DCR</b><br>' +
+                    '# of active Tickets: <b>' +number_of_tickets+ ' tickets</b><br>' +
                     'Earned: <b>' +infoHash.total_earned+ ' DCR</b><br>' +
                     'Current ROI: <b>' +infoHash.current_roi+ '</b><br>' +
                     '<h1>Projections</h1>' +
