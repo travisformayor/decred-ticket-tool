@@ -1,11 +1,18 @@
 $(document).ready(function(){
-  $('#button-data1').click(function () {
+  $('#button-example1').click(function () {
+    var ticketAddress = "DsjjcURu9xbdsPfjPieTdc849yMKSKo4qkW";
+    stuffToDo(ticketAddress);
+  });
+  $('#button-example2').click(function () {
     var ticketAddress = "DckG48GELxZh3RdPttn2AWqVrxe9cV76ZXu";
     stuffToDo(ticketAddress);
   });
-
-  $('#button-data2').click(function () {
+  $('#button-example3').click(function () {
     var ticketAddress = "Dckn5yPdFEtV4hY6yhEK3TzFAiLDNN6xoyJ";
+    stuffToDo(ticketAddress);
+  });
+  $('#button-example4').click(function () {
+    var ticketAddress = "Dco2zMP58Sf9mQQgc9nLky82nbrsu9N5onr";
     stuffToDo(ticketAddress);
   });
 
@@ -16,7 +23,7 @@ $(document).ready(function(){
 
   function stuffToDo(addr) {
     var ticketAddress = addr;
-    var maxCheck = "1000"
+    var maxCheck = "8000" // Increasing this isnt enough, the api doesnt return above this
     var decredTicketAPI = "https://explorer.dcrdata.org/api/address/"+ticketAddress+"/count/"+maxCheck+"/raw";
     $.getJSON(decredTicketAPI, function (ticketData) {
       var staking = 0;
@@ -25,16 +32,19 @@ $(document).ready(function(){
       var oldestBlock = 0;
 
       for (let i=0; i<ticketData.length;++i) {
+        var vin = 1;
+        if (ticketData[i].vin.hasOwnProperty("1")) { vin = 1; } else { vin = 0; };
+
         // Find oldest block on ticket address
-        if (oldestBlock == 0) {oldestBlock = ticketData[i].vin[1].blockheight};
-        if (oldestBlock > ticketData[i].vin[1].blockheight) {oldestBlock = ticketData[i].vin[1].blockheight};
+        if (oldestBlock == 0) {oldestBlock = ticketData[i].vin[vin].blockheight};
+        if (oldestBlock > ticketData[i].vin[vin].blockheight) {oldestBlock = ticketData[i].vin[vin].blockheight};
 
         // add up all unspent and subract all spent
         if (ticketData[i].vout[0].scriptPubKey.type == "stakesubmission") { 
           staking += ticketData[i].vout[0].value;
           tickets += 1;
         } else {
-          staking -= ticketData[i].vin[1].amountin;
+          staking -= ticketData[i].vin[vin].amountin;
           tickets -= 1;
         };
 
