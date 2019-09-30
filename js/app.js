@@ -148,7 +148,7 @@ function stuffToDo(addr) {
         hours_since: extraHours,
         number_of_tickets: tickets
       };
-      // console.log(infoHash);
+      console.log(infoHash);
       $("#display-data").html("");
       let infoContainer = $("#display-data");
       infoHTML =  '<h1>Tickets Overview</h1>' +
