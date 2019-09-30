@@ -29,32 +29,43 @@
         <button id="btn-ex4" class="example-button" data-addr="Dco2zMP58Sf9mQQgc9nLky82nbrsu9N5onr">Example 4</button>
       </div>
   </header>
-  <div id="display-data"></div>
   <main class="hidden">
     <div class="results">
       <div class="summary">
         <h1>Overview</h1>
-        <b>Ticket Address: </b><span id="ticket-addr">...</span><br>
-        <a href="" target="_blank">View on Block Explorer</a><br><br>
-        <b><span id="num-txn">...</span> transactions found</b> out of <span id="max-checked">...</span> searched<br>
-        Staking history goes back <b><span id="days-hours-old">...</span></b>, since <span id="oldest-date">...</span>
+        <b>Ticket Address: </b><span class="result" id="ticket-addr">...</span>
+        <br>
+        <a id="explore-link" href="" target="_blank">View on Block Explorer</a>
+        <br>
+        <b><span class="result" id="num-txn">...</span> transactions found</b> out of <span class="result" id="max-checked">...</span> searched
+        <br>
+        Age: Staking started <b><span class="result" id="days-hours-old">...</span></b> ago, on <span class="result" id="oldest-date">...</span>
+        <br>
+        Active Time: <b><span class="result" id="days-hours-active">...</span></b> between oldest and newest ticket (<span class="result" id="newest-date">...</span>)
       </div>
       <div class="current">
         <h1>Returns</h1>
-        Currently Staking: <b><span id="current-stake">...</span> DCR</b><br>
-        # of active Tickets: <b><span id="active-tickets">...</span> tickets</b><br>
-        Earned: <b><span id="total-reward">...</span> DCR</b><br>
-        Current ROI: <b><span id="current-roi">...</span></b><br>
+        Currently Staking: <b><span class="result" id="currently-staking">...</span> DCR</b>
+        <br>
+        # of active Tickets: <b><span class="result" id="active-tickets">...</span> tickets</b>
+        <br>
+        Earned: <b><span class="result" id="total-reward">...</span> DCR</b>
+        <br>
+        Estimated ROI: <b><span class="result" id="estimated-roi">...</span></b>
+        <br>
+        Annualized ROI: <b><span class="result" id="annualized-roi">...</span></b>
       </div>
       <div class="estimates">
         <h1>Projections</h1>
-        Average Daily Returns: <span id="avg-daily-reward">...</span> DCR earned per day, for a <b><span
-            id="avg-daily-roi">...</span> daily roi.</b><br>
-        Estimated Annual Returns: <span id="est-annual-reward">...</span> DCR earned in a year, for a <b><span
-            id="est-annual-roi">...</span> annual roi.</b><br>
+        Average Daily Returns: <span class="result" id="avg-daily-reward">...</span> DCR earned per day, for a 
+        <b><span class="result" id="avg-daily-roi">...</span> daily roi.</b>
+        <br>
+        Estimated Annual Returns: <span class="result" id="est-annual-reward">...</span> DCR earned in a year, for a 
+        <b><span class="result" id="est-annual-roi">...</span> annual roi.</b>
       </div>
     </div>
   </main>
+  <div id="display-data"></div>
 </body>
 
 </html>

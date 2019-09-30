@@ -7,11 +7,11 @@
 h1, h3 {
   margin: 10px 0px;
 }
-input {
+input, button {
   font-size: 1.25rem;
+  padding: 0px 10px;
 }
 button {
-  font-size: 1.25rem;
   margin: 5px;
 }
 header {
