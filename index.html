@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <script defer src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script defer src="js/app.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
 
-    <title>Decred Ticket Tool</title>
-  </head>
-  <body>
-    <header>
-      <h1 class="title">Decred Staking Stats</h3>
+  <script defer src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script defer src="js/app.js"></script>
+
+  <title>Decred Ticket Tool</title>
+</head>
+
+<body>
+  <header>
+    <h1 class="title">Decred Staking Stats</h3>
       <h3 class="subtitle">Enter the "Ticket Address" from the pool info in your Decrediton wallet tickets section</h3>
       <div class="addr-input">
-        <input type="text" size="40" name="dcrAddress" id="dcr-addr" placeholder="DckGBipU..." >
+        <input type="text" size="40" name="dcrAddress" id="dcr-addr" placeholder="DckGBipU...">
         <button id="input-button">Lookup</button>
       </div>
       <div class="examples">
@@ -26,9 +28,33 @@
         <button id="btn-ex3" class="example-button" data-addr="Dckn5yPdFEtV4hY6yhEK3TzFAiLDNN6xoyJ">Example 3</button>
         <button id="btn-ex4" class="example-button" data-addr="Dco2zMP58Sf9mQQgc9nLky82nbrsu9N5onr">Example 4</button>
       </div>
-    </header>
-    <main>
-      <div id="display-data"></div>
-    </main>
-  </body>
+  </header>
+  <div id="display-data"></div>
+  <main class="hidden">
+    <div class="results">
+      <div class="summary">
+        <h1>Overview</h1>
+        <b>Ticket Address: </b><span id="ticket-addr">...</span><br>
+        <a href="" target="_blank">View on Block Explorer</a><br><br>
+        <b><span id="num-txn">...</span> transactions found</b> out of <span id="max-checked">...</span> searched<br>
+        Staking history goes back <b><span id="days-hours-old">...</span></b>, since <span id="oldest-date">...</span>
+      </div>
+      <div class="current">
+        <h1>Returns</h1>
+        Currently Staking: <b><span id="current-stake">...</span> DCR</b><br>
+        # of active Tickets: <b><span id="active-tickets">...</span> tickets</b><br>
+        Earned: <b><span id="total-reward">...</span> DCR</b><br>
+        Current ROI: <b><span id="current-roi">...</span></b><br>
+      </div>
+      <div class="estimates">
+        <h1>Projections</h1>
+        Average Daily Returns: <span id="avg-daily-reward">...</span> DCR earned per day, for a <b><span
+            id="avg-daily-roi">...</span> daily roi.</b><br>
+        Estimated Annual Returns: <span id="est-annual-reward">...</span> DCR earned in a year, for a <b><span
+            id="est-annual-roi">...</span> annual roi.</b><br>
+      </div>
+    </div>
+  </main>
+</body>
+
 </html>
