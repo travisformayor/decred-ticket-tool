@@ -1,20 +1,19 @@
 // ==== Global variables ==== //
 let currentAddr = '';
-const maxCheck = 8000 // The api doesn't return more than 8000 results
+const maxCheck = 8000; // The api doesn't return more than 8000 results
 
 // ==== Event Handlers ==== //
 $('.example-button').on('click', e => {
   let ticketAddress = $(e.target).attr('data-addr');
   currentAddr = ticketAddress;
-  fetchJSON(ticketAddress)
-  stuffToDo(ticketAddress)
+  fetchJSON(ticketAddress);
 })
 
+// ToDo: hitting enter on input also triggering search
 $('#input-button').on('click', () => {
   let ticketAddress = $("#dcr-addr").val().trim();
   currentAddr = ticketAddress;
   fetchJSON(ticketAddress);
-  stuffToDo(ticketAddress);
 });
 
 // ==== Helper Functions ==== //
@@ -179,99 +178,3 @@ function populateHtml(info) {
 
   // ToDo: Add disclaimer to ROI section explaining the potential inaccuracies
 }
-
-function stuffToDo(addr) {
-  var ticketAddress = addr;
-  var maxCheck = "8000" // The api doesn't return more than 8000 results
-  var decredTicketAPI = "https://explorer.dcrdata.org/api/address/"+ticketAddress+"/count/"+maxCheck+"/raw";
-  $.getJSON(decredTicketAPI, function (ticketData) {
-    var staking = 0;
-    var tickets = 0;
-    var earned = 0;
-    var oldestBlock = 0;
-
-    for (let i=0; i<ticketData.length;++i) {
-      var vin = 1;
-      if (ticketData[i].vin.hasOwnProperty("1")) { 
-        vin = 1; 
-      } else { 
-        vin = 0; 
-      };
-
-      // Find oldest block on ticket address
-      if (oldestBlock == 0) {
-        oldestBlock = ticketData[i].vin[vin].blockheight
-      };
-      if (oldestBlock > ticketData[i].vin[vin].blockheight) {
-        oldestBlock = ticketData[i].vin[vin].blockheight
-      };
-
-      // add up all unspent and subtract all spent
-      if (ticketData[i].vout[0].scriptPubKey.type == "stakesubmission") { 
-        staking += ticketData[i].vout[0].value;
-        tickets += 1;
-      } else {
-        staking -= ticketData[i].vin[vin].amountin;
-        tickets -= 1;
-      };
-
-      // add up all stakebase rewards
-      if (ticketData[i].vin[0].stakebase == 0000) {
-        earned = earned + ticketData[i].vin[0].amountin;
-      };
-      currentRoi = Math.round((earned/(staking-earned)*100)*100)/100+" %";
-    };
-
-    var blockTime;
-    var decredBlockAPI = "https://explorer.dcrdata.org/api/block/"+oldestBlock;
-    $.getJSON(decredBlockAPI, function (blockData) {
-      blockTime = blockData.time;
-      currentTime = Date.now() / 1000;
-      elapsedTime = currentTime - blockTime; // in seconds
-      elapsedDaysRaw = elapsedTime/60/60/24;
-      elapsedWholeDays= Math.trunc(elapsedTime/60/60/24);
-      extraHours = Math.round((elapsedDaysRaw - elapsedWholeDays)*24);
-
-      // estimated returns
-      avgDailyEarn = earned / elapsedDaysRaw;
-      avgDailyRoi = Math.round((avgDailyEarn/(staking-earned)*100)*1000)/1000+" %";
-      estAnnualEarn = avgDailyEarn * 365;
-      estAnnualRoi = Math.round((estAnnualEarn/(staking-earned)*100)*100)/100+" %";
-
-      let infoHash = {
-        txn_number: ticketData.length, 
-        total_staking: Math.round(staking*100)/100, 
-        total_earned: Math.round(earned*100)/100, 
-        current_roi: currentRoi,
-        avg_daily_earn: Math.round(avgDailyEarn*100)/100,
-        avg_daily_roi: avgDailyRoi,
-        est_annual_earn: Math.round(estAnnualEarn*100)/100,
-        est_annual_roi: estAnnualRoi,
-        url: "https://explorer.dcrdata.org/address/"+ticketAddress,
-        ticket_address: ticketAddress,
-        max_checked: maxCheck,
-        oldest_block_day: new Date(blockTime * 1000),
-        days_since: elapsedWholeDays,
-        hours_since: extraHours,
-        number_of_tickets: tickets
-      };
-      console.log(infoHash);
-      $("#display-data").html("");
-      let infoContainer = $("#display-data");
-      infoHTML =  '<h1>Tickets Overview</h1>' +
-                  '<b>Ticket Address: </b>' +infoHash.ticket_address+ '<br>' +
-                  '<a href="'+infoHash.url+'" target="_blank">Decred Block Explorer</a><br><br>' +
-                  '<b>'+infoHash.txn_number+' transactions found</b> out of '+infoHash.max_checked+' searched<br>' +
-                  'Staking for <b>'+infoHash.days_since+' days '+infoHash.hours_since+' hours</b>, since '+infoHash.oldest_block_day +
-                  '<h1>Returns</h1>' +
-                  'Staked: <b>' +infoHash.total_staking+ ' DCR</b><br>' +
-                  '# of active Tickets: <b>' +infoHash.number_of_tickets+ ' tickets</b><br>' +
-                  'Earned: <b>' +infoHash.total_earned+ ' DCR</b><br>' +
-                  'Current ROI: <b>' +infoHash.current_roi+ '</b><br>' +
-                  '<h1>Projections</h1>' +
-                  'Average Daily Returns: '+infoHash.avg_daily_earn+' DCR earned per day, for a <b>'+infoHash.avg_daily_roi+' daily roi</b>.<br>' +
-                  'Estimated Annual Returns: '+infoHash.est_annual_earn+' DCR earned in a year, for a <b>'+infoHash.est_annual_roi+' annual roi</b>.<br>';         
-      infoContainer.append(infoHTML);
-    });
-  });
-};
