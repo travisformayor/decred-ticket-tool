@@ -153,6 +153,7 @@ function populateHtml(info) {
   $('#currently-staking').text(round(round(info.runningBalance)))
   $('#active-tickets').text(info.totalBuys - (info.totalVotes + info.totalRevokes))
   $('#total-reward').text(round(info.dcrReward))  
+  $('#daily-reward').text(round(info.dcrReward/info.daysBetween))  
   // ROI = (Current Value of Investment - Cost of Investment) / Cost of Investment
   // In a ROI calculation you need to know the total cost of the investment and the end value.
   // There is an issue determining the total cost of the investment when refunded money is reused to buy new tickets.
@@ -168,19 +169,15 @@ function populateHtml(info) {
   if (info.dcrReward > avgTicketPrice) {
     info.maxBalance -= avgTicketPrice;
   }
+  let estRoi = info.dcrReward/info.maxBalance;
+  $('#estimated-roi').text(`${round((estRoi)*100, 2)}%`)
   //Annualized ROI = [(1+ROI)^1/n −1] × 100%
   // where n = Number of years for which the investment is held
-  let estRoi = info.dcrReward/info.maxBalance;
   let n = info.daysBetween / 365
-  let annRoi = (Math.pow((1+(info.dcrReward/info.maxBalance)),(1/n))-1)
-  $('#estimated-roi').text(`${round((estRoi)*100, 2)}%`)
-  $('#annualized-roi').text(`${round((annRoi)*100, 2)}%`)
-  // debugger;
+  let annRoi = (Math.pow((1+(estRoi)),(1/n))-1)
+  $('#est-annual-roi').text(`${round((annRoi)*100, 2)}%`)
 
-  $('#avg-daily-reward').text()
-  $('#avg-daily-roi').text()
-  $('#est-annual-reward').text()
-  $('#est-annual-roi').text()
+  // ToDo: Add disclaimer to ROI section explaining the potential inaccuracies
 }
 
 function stuffToDo(addr) {
