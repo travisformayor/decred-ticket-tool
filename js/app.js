@@ -1,3 +1,11 @@
+// ToDo:
+// - Need to know how much money hodled over what time frames to calc strategy comparisons
+//   - ie: vs btc hodl, not staking, optimal staking est., etc
+// - Confirm there are no other ways a ticket resolves besides Vote or Revoke.
+// - Checking if reward is enough to buy a ticket doesn't work for multiples above 1 extra ticket
+// - Add disclaimers for ROI section explaining assumptions.
+// - Hitting enter on input also triggers search, not just clicking submit
+
 // ==== Global variables ==== //
 let currentAddr = '';
 const maxCheck = 8000; // The api doesn't return more than 8000 results
@@ -9,7 +17,6 @@ $('.example-button').on('click', e => {
   fetchJSON(ticketAddress);
 })
 
-// ToDo: hitting enter on input also triggering search
 $('#input-button').on('click', () => {
   let ticketAddress = $("#dcr-addr").val().trim();
   currentAddr = ticketAddress;
@@ -45,25 +52,16 @@ function handleError(error) {
 }
 
 function handleSubmit() {
-  // when ajax starts
+  // This function runs right when ajax starts, before results come bac,
   // un-hide if hidden, replace values with loading placeholder
   $('main').removeClass('hidden');
   $('.result').text('[loading...]');
-  // clear out link, hide till results
+  // clear out link, hide till results (done in the populateHtml function)
   $("a#explore-link").prop("href", "").addClass('hidden')
 }
 
 function handleSuccess(response) {
-  // Tasks:
-  // - get all votes and their stakegen (reward payout)
-  // - grab all the ticket prices?
-  // - count up all the ticket buys that are still active (un-voted)
-  //   - the difference between total ticket buys and votes plus revokes
-  // - need to know how much money hodled over what time frames to calc strategy comparisons
-  //   - ie: vs btc hodl, not staking, optimal staking est., etc
-  // - if there are no active tickets or no stake, its not an active account. make sure not dividing by zero.
-  // ToDo: confirm there are no other ways a ticket resolves besides Vote or Revoke.
-  // ToDo: use latest ticket and oldest ticket for duration roi vs only current date option
+  // The function runs if the ajax results come back with a success response type
 
   // Steps:
   // 1) Check the ticket's time (epoch format). Find the oldest and newest ticket. Calc time elapsed.
@@ -71,8 +69,9 @@ function handleSuccess(response) {
   // Votes: is the first input a stake base? Votes have that for the new coins created
   // Buys: is the first output a stake submission? Buys have that for the ticket payment
   // Revokes: is the first output a stake revoke? Revoked tickets are returned without reward
-  // 3) Count up all the Vote type reward payouts
+  // 3) Count up all the Vote type reward payouts (stakegen and refunds)
   // 4) Add up all the buy costs and all the resolve (vote or revoke) refunds. Diff is the amount currently still staked.
+  // 5) Estimate roi and average ticket price
 
   let info = {
     dcrReward: 0,
@@ -88,7 +87,8 @@ function handleSuccess(response) {
     daysSince: 0,
     daysBetween: 0,
   }
-  
+
+  // Calc dates  
   let currentTime = new Date(Date.now()/1000);
   let newTime = new Date(info.newestTime)
   let oldTime = new Date(info.oldestTime);
@@ -137,10 +137,8 @@ function handleSuccess(response) {
 function populateHtml(info) {
   // clear out current info
   $('.result').text('...');
-
   // add link and un-hide
   $("a#explore-link").prop("href", `https://explorer.dcrdata.org/address/${currentAddr}`).removeClass('hidden')
-  
   // grab id's and add in new info
   $('#ticket-addr').text(currentAddr)
   $('#num-txn').text(info.totalBuys + info.totalVotes + info.totalRevokes)
@@ -156,25 +154,22 @@ function populateHtml(info) {
   // ROI = (Current Value of Investment - Cost of Investment) / Cost of Investment
   // In a ROI calculation you need to know the total cost of the investment and the end value.
   // There is an issue determining the total cost of the investment when refunded money is reused to buy new tickets.
-  // Were the tickets bought at once, or was the same money reused and its roi increased? Was a ticket bought with refunded money.
-  // The ticket address only tracks ticket activity, and tracking a wallet's balance would involve revealing a public address seed.
-  // However, a rough estimate can be performed by looking for the max staked balance that was ever held at a single time.
-  // The max total funds the wallet had access to at once would not include reused money.
-  // This rough calc won't work if the wallet's balance was changing over time due to external adding.
-  // It also is effected by reward money, as it increases the wallet's investable balance... but only if it's enough to buy a whole new ticket.
-  // We can track the average ticket price and see if the total reward is enough to buy a new ticket. 
-  // If it is, assume it was used and subtract the average ticket price from the cost of the investment (the all time high invested at once)
+  // One ticket bought over and over, or a lot of tickets bought at once? Bought with reused money vs total value used to buy tickets.
+  // Ticket address tracks ticket activity. Tracking a wallet's balance would involve revealing a public address seed or a lot of other guess work.
+  // Solution used: For accounts where a set amount is being invested without major change, an estimate can be made.
+  // Look for the max staked balance held at a single time (max concurrent ticket value) to guess total funds the wallet had access to at once.
+  // This doesn't work if wallet's balance changes a lot over time, and stake rewards can also increase the wallet's investable balance.
+  // Can get the average ticket price and see if the reward is enough to buy more tickets. If so, remove them from the assumed total cost of investment.
   let avgTicketPrice = info.totalBuyCost / info.totalBuys;
   if (info.dcrReward > avgTicketPrice) {
+    // ToDo: what if the difference is multiple tickets worth? This only takes 1 ticket off
     info.maxBalance -= avgTicketPrice;
   }
   let estRoi = info.dcrReward/info.maxBalance;
   $('#estimated-roi').text(`${round((estRoi)*100, 2)}%`)
-  //Annualized ROI = [(1+ROI)^1/n −1] × 100%
+  // Annualized ROI = [(1+ROI)^1/n −1] × 100%
   // where n = Number of years for which the investment is held
   let n = info.daysBetween / 365
   let annRoi = (Math.pow((1+(estRoi)),(1/n))-1)
   $('#est-annual-roi').text(`${round((annRoi)*100, 2)}%`)
-
-  // ToDo: Add disclaimer to ROI section explaining the potential inaccuracies
 }
