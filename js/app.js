@@ -4,7 +4,10 @@
 // - Confirm there are no other ways a ticket resolves besides Vote or Revoke.
 // - Checking if reward is enough to buy a ticket doesn't work for multiples above 1 extra ticket
 // - Add disclaimers for ROI section explaining assumptions.
+// - Lookup submit button only triggers populate if there is something in the input
 // - Hitting enter on input also triggers search, not just clicking submit
+// - Error message for no or bad response to data displayed on page
+// - Errors: endpoint no response, not a valid address, not a ticket address (check txn types and array response)
 
 // ==== Global variables ==== //
 let currentAddr = '';
@@ -52,12 +55,12 @@ function handleError(error) {
 }
 
 function handleSubmit() {
-  // This function runs right when ajax starts, before results come bac,
-  // un-hide if hidden, replace values with loading placeholder
+  // This function runs right when ajax starts, before results come back
+  // clear out explorer link, hide till get results (done in the populateHtml function)
+  $("a#explore-link").prop("href", "").addClass('hidden')
+  // un-hide results section if hidden, replace values with loading placeholders
   $('main').removeClass('hidden');
   $('.result').text('[loading...]');
-  // clear out link, hide till results (done in the populateHtml function)
-  $("a#explore-link").prop("href", "").addClass('hidden')
 }
 
 function handleSuccess(response) {
@@ -144,9 +147,9 @@ function populateHtml(info) {
   $('#num-txn').text(info.totalBuys + info.totalVotes + info.totalRevokes)
   $('#max-checked').text(maxCheck)
   $('#days-hours-old').text(`${Math.trunc(info.daysSince)} days ${Math.round((info.daysSince%1)*24)} hours`)
-  $('#oldest-date').text(new Date(info.oldestTime*1000))
+  $('#oldest-date').text(new Date(info.oldestTime*1000).toLocaleString())
   $('#days-hours-active').text(`${Math.trunc(info.daysBetween)} days ${Math.round((info.daysBetween%1)*24)} hours`)
-  $('#newest-date').text(new Date(info.newestTime*1000))
+  $('#newest-date').text(new Date(info.newestTime*1000).toLocaleString())
   $('#currently-staking').text(round(round(info.runningBalance)))
   $('#active-tickets').text(info.totalBuys - (info.totalVotes + info.totalRevokes))
   $('#total-reward').text(round(info.dcrReward))  
