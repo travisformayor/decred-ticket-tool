@@ -1,4 +1,4 @@
-# DecredCheck
+# Decred Ticket Tool
 
 <https://travisformayor.github.io/decredcheck/>
 

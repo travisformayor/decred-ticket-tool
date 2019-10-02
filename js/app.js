@@ -161,7 +161,7 @@ function populateHtml(info) {
   // Ticket address tracks ticket activity. Tracking a wallet's balance would involve revealing a public address seed or a lot of other guess work.
   // Solution used: For accounts where a set amount is being invested without major change, an estimate can be made.
   // Look for the max staked balance held at a single time (max concurrent ticket value) to guess total funds the wallet had access to at once.
-  // This doesn't work if wallet's balance changes a lot over time, and stake rewards can also increase the wallet's investable balance.
+  // This doesn't work if wallet's balance changes a lot over time, and stake rewards can also increase the wallet's 'stake-able' balance.
   // Can get the average ticket price and see if the reward is enough to buy more tickets. If so, remove them from the assumed total cost of investment.
   let avgTicketPrice = info.totalBuyCost / info.totalBuys;
   if (info.dcrReward > avgTicketPrice) {
