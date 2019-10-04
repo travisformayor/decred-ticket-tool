@@ -14,17 +14,19 @@ let currentAddr = '';
 const maxCheck = 8000; // The api doesn't return more than 8000 results
 
 // ==== Event Handlers ==== //
+// Click an example button
 $('.example-button').on('click', e => {
   let ticketAddress = $(e.target).attr('data-addr');
   currentAddr = ticketAddress;
   fetchJSON(ticketAddress);
 })
-
-$('#input-button').on('click', () => {
-  let ticketAddress = $("#dcr-addr").val().trim();
-  currentAddr = ticketAddress;
-  fetchJSON(ticketAddress);
-});
+// Search box
+  $('.address-search').on('submit', e => {
+    e.preventDefault();
+    let ticketAddress = $("#dcr-addr").val().trim();
+    currentAddr = ticketAddress;
+    fetchJSON(ticketAddress);
+})
 
 // ==== Helper Functions ==== //
 function round(number, precision) {
@@ -59,7 +61,7 @@ function handleSubmit() {
   // clear out explorer link, hide till get results (done in the populateHtml function)
   $("a#explore-link").prop("href", "").addClass('hidden')
   // un-hide results section if hidden, replace values with loading placeholders
-  $('main').removeClass('hidden');
+  $('.response-data').removeClass('hidden');
   $('.result').text('[loading...]');
 }
 
