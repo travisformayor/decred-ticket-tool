@@ -1,68 +1,176 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
+/* ==== Colors ======================== */
+:root {
+  --background: #ffffff;
+  --shadow: 2px 0 10px 0 rgba(0, 0, 0, 0.25);
+  --prim-dark: #091440;
+  --sec-dark: #263264;
+  --sidebar-gradient: linear-gradient(to right, var(--prim-dark), var(--sec-dark)); 
+  --mask: #f4f7f9;
+  --subtitle: #8997a5;
+  --dark-font: #212529;
+  --grey-font: #5a6d81;
+  --blue-font:#d5edfa;
+  --green: #2dd8a3;
+  --footer-bg: #2970ff;
+  /* #000000; */
+  }
+
+/* ==== Styling ======================= */
 * {
   /* border: 1px solid red; */
+  font-family: 'Source Sans Pro', sans-serif;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-h1, h3 {
-  margin: 10px;
-  text-align: center;
+body {
+  /* pushing footer to bottom */
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
-input {
-  width: 100%
-}
-.addr-input {
-  width: 510px;
+div.top {
+  flex: 1; /* grows top to push down footer */
   display: flex;
   flex-flow: row nowrap;
-  justify-content: center;
-  margin-bottom: 20px;
 }
-button, input {
-  font-size: 1.25rem;
-  padding: 0px 10px;
-  margin: 0 5px;
-}
-button.example-button {
-  margin: 5px;
-}
-header {
+/* Sidebar */
+aside {
+  width: 35%;
+  min-width: 310px;
+  box-shadow: var(--shadow);
+  background: var(--sidebar-gradient);
+  z-index: 1; /* Puts the shadow on top */
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.05);
-  padding: 40px 0 20px;
 }
-.examples {
-  display: flex;
-  justify-content: center;
-  flex-flow: row wrap;
+.logo-holder {
+  margin-right: 70px;
+}
+.logo {
+  width: 223px;
+  height: 42px;
+}
+.app-title {
+  margin-top: 27px;
+  font-size: 34px;
+  color: #ffffff;
 }
 main {
-  max-width: 600px;
-  margin: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
-#ticket-addr {
-  word-break: break-all;
-  word-wrap: break-word; /* IE */
-  white-space: pre-line; /* CSS 3 */
-  white-space: pre-wrap; /* CSS 2.1 */
-  white-space: -pre-wrap; /* Opera 4-6 */
-  white-space: -o-pre-wrap; /* Opera 7 */
-  white-space: -moz-pre-wrap; /* Mozilla */
+/* Search Section */
+section.input {
+  padding-left: 100px;
+  padding-top: 60px;
+  height: 312px;
+  background: var(--mask);
+}
+.input-title {
+  margin-bottom: 16px;
+  font-size: 19px;
+  color: var(--prim-dark);
+}
+.subtitle {
+  font-size: 13px;
+  color: var(--subtitle);
+}
+/* Search field */
+form.address-search {
+  margin-top: 12px;
+  width: 500px;
+  display: flex;
+  flex-flow: row nowrap;
+  border-bottom: 2px solid var(--green);
+}
+form.address-search input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: var(--mask);
+  font-size: 16px;
+  color: var(--dark-font);
+}
+form.address-search button {
+  font-size: 24px;
+  padding-right: 10px;
+  background: var(--mask);
+  color: var(--grey-font);
+  border: none;  
+}
+form.address-search button:hover {
+  color: var(--prim-dark);
+}
+/* Example Buttons */
+.examples {
+  display: inline-block;
+  margin-top: 30px; 
+  border-radius: 5px;
+  border: solid 2px var(--green);
+  overflow: hidden;
+  font-size: 0; /* Remove space between buttons */
+}
+.examples button {
+  border: none;
+  border-left: solid 2px var(--green);
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  line-height: 3;
+  padding: 0 20px;
+  color: var(--green);
+  background-color: #ffffff;
+}
+.examples button:first-of-type {
+  border-left: none;
+}
+.examples button:hover {
+  color: #ffffff;
+  background-color: var(--green);
+}
+/* Results Section */
+section.results {
+  padding-top: 25px; 
+  padding-left: 100px;
 }
 .hidden {
   display: none;
 }
-
-/* ==== Media Queries ================= */
-@media screen and (max-width: 530px) {
-  .addr-input {
-    width: 95%;
-    flex-flow: row wrap;
-  }
-  input {
-    margin: 0 0 5px;
-  }
+/* Footer */
+footer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 150px;
+  box-shadow: var(--shadow);
+  background-color: var(--footer-bg);
+}
+.footer-elm-holder {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  width: 180px;
+  text-decoration: none;
+}
+img.small-logo, .fab {
+  height: 25px;
+  padding: 5px;
+  color: #ffffff;
+}
+.footer-text {
+  font-size: 16px;
+  padding: 5px;
+  color: #d5edfa;
+  text-decoration: none;
+}
+.footer-elm-holder .footer-text {
+  font-weight: 600;
+  color: #ffffff;
 }

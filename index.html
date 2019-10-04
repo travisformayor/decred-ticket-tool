@@ -6,63 +6,89 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+  <link rel="stylesheet" type="text/css" href="css/all.css">
   <link rel="stylesheet" type="text/css" href="css/style.css">
 
-  <script defer src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script defer src="js/jquery-3.4.1.min.js"></script>
   <script defer src="js/app.js"></script>
 
   <title>Decred Ticket Tool</title>
 </head>
 
 <body>
-  <header>
-    <h1 class="title">Decred Ticket Tool</h3>
-      <h3 class="subtitle">Enter the "Ticket Address" from the pool info in your Decrediton wallet tickets section</h3>
-      <div class="addr-input">
-        <input type="text" name="dcrAddress" id="dcr-addr" placeholder="DckGBipU...">
-        <button id="input-button">Lookup</button>
+  <div class="top">
+    <aside>
+      <div class="logo-holder">
+        <img class="logo" src="img/full_logo.svg">
+        <p class="app-title">Ticket Tool</p>
       </div>
-      <div class="examples">
-        <button id="btn-ex1" class="example-button" data-addr="DsjjcURu9xbdsPfjPieTdc849yMKSKo4qkW">Example 1</button>
-        <button id="btn-ex2" class="example-button" data-addr="DckG48GELxZh3RdPttn2AWqVrxe9cV76ZXu">Example 2</button>
-        <button id="btn-ex3" class="example-button" data-addr="Dckn5yPdFEtV4hY6yhEK3TzFAiLDNN6xoyJ">Example 3</button>
-        <button id="btn-ex4" class="example-button" data-addr="Dco2zMP58Sf9mQQgc9nLky82nbrsu9N5onr">Example 4</button>
-      </div>
-  </header>
-  <main class="hidden">
-    <div class="results">
-      <div class="summary">
-        <h1>Overview</h1>
-        <b>Ticket Address: </b><span class="result" id="ticket-addr">...</span>
-        <br>
-        <a id="explore-link" href="" target="_blank">View on Block Explorer</a>
-        <br>
-        <b><span class="result" id="num-txn">...</span> transactions found</b> out of <span class="result" id="max-checked">...</span> searched
-        <br>
-        Age: Staking started <b><span class="result" id="days-hours-old">...</span></b> ago, on <span class="result" id="oldest-date">...</span>
-        <br>
-        Active Time: <b><span class="result" id="days-hours-active">...</span></b> between oldest and newest ticket (<span class="result" id="newest-date">...</span>)
-      </div>
-      <div class="current">
-        <h1>Returns</h1>
-        Currently Staking: <b><span class="result" id="currently-staking">...</span> DCR</b>
-        <br>
-        # of active Tickets: <b><span class="result" id="active-tickets">...</span> tickets</b>
-        <br>
-        Staking Rewards (Total): <b><span class="result" id="total-reward">...</span> DCR</b>
-        <br>
-        Staking Rewards (Per Day Active): <b><span class="result" id="daily-reward">...</span> DCR</b>
-        <br>
+    </aside>
+    <main>
+      <section class="input">
+        <p class="input-title">Check your staking statistics</p>
+        <p class="subtitle">Enter the "Ticket Address" from the pool info in your Decrediton wallet tickets section.</p>
+        <form class="address-search">
+          <input type="text" name="dcrAddress" id="dcr-addr" placeholder="DckGBipU...">
+          <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+        <div class="examples">
+          <button id="btn-ex1" class="example-button" data-addr="DsjjcURu9xbdsPfjPieTdc849yMKSKo4qkW">Example 1</button>
+          <button id="btn-ex2" class="example-button" data-addr="DckG48GELxZh3RdPttn2AWqVrxe9cV76ZXu">Example 2</button>
+          <button id="btn-ex3" class="example-button" data-addr="Dckn5yPdFEtV4hY6yhEK3TzFAiLDNN6xoyJ">Example 3</button>
+          <button id="btn-ex4" class="example-button" data-addr="Dco2zMP58Sf9mQQgc9nLky82nbrsu9N5onr">Example 4</button>
+        </div>
+      </section>
 
-      </div>
-      <div class="roi-estimates">
-        <h1>Estimated ROI</h1>
-        Estimated Total ROI: <b><span class="result" id="estimated-roi">...</span></b>
-        <br>
-        Estimated Annualized ROI (Earned per year): <b><span class="result" id="est-annual-roi">...</span></b>
-      </div>
+      <section class="results">
+        <div class="hidden response-data">
+          <div class="summary">
+            <h1>Overview</h1>
+            <b>Ticket Address: </b><span class="result" id="ticket-addr">...</span>
+            <br>
+            <a id="explore-link" href="" target="_blank">View on Block Explorer</a>
+            <br>
+            <b><span class="result" id="num-txn">...</span> transactions found</b> out of <span class="result"
+              id="max-checked">...</span> searched
+            <br>
+            Age: Staking started <b><span class="result" id="days-hours-old">...</span></b> ago, on <span class="result"
+              id="oldest-date">...</span>
+            <br>
+            Active Time: <b><span class="result" id="days-hours-active">...</span></b> between oldest and newest ticket
+            (<span class="result" id="newest-date">...</span>)
+          </div>
+          <div class="current">
+            <h1>Returns</h1>
+            Currently Staking: <b><span class="result" id="currently-staking">...</span> DCR</b>
+            <br>
+            # of active Tickets: <b><span class="result" id="active-tickets">...</span> tickets</b>
+            <br>
+            Staking Rewards (Total): <b><span class="result" id="total-reward">...</span> DCR</b>
+            <br>
+            Staking Rewards (Per Day Active): <b><span class="result" id="daily-reward">...</span> DCR</b>
+            <br>
+          </div>
+          <div class="roi-estimates">
+            <h1>Estimated ROI</h1>
+            Estimated Total ROI: <b><span class="result" id="estimated-roi">...</span></b>
+            <br>
+            Estimated Annualized ROI (Earned per year): <b><span class="result" id="est-annual-roi">...</span></b>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <footer>
+    <div class="footer-elm-holder">
+      <img class="small-logo" src="img/small_logo.svg">
+      <p class="footer-text">Decred Ticket Tool</p>
     </div>
-  </main>
+    <a class="footer-text" href="https://travisformayor.com" target="_blank">Developed by Travis D. Uhrig</a>
+    <a class="footer-text" href="https://yg.is" target="_blank">Designed by Yana Gevorgyan</a>
+    <a class="footer-elm-holder" href="https://github.com/travisformayor/decredcheck" target="_blank">
+      <i class="fab fa-github"></i>
+      <p class="footer-text">View on Github</p>
+    </a>
+  </footer>
 </body>
 
 </html>
