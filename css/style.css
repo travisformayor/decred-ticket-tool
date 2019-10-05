@@ -175,20 +175,26 @@ h3.stat-title {
   font-size: 13px;
   letter-spacing: 1px;
 }
+/* Link to block explorer */
+.block-link {
+  display: block;
+}
 #explore-link, .fa-arrow-right {
+  display: inline-block;
   color: var(--dark-blue);
   text-decoration: none;
   font-size: 13px;
-  padding: 10px 0;
-  margin-bottom: -10px;
+  padding: 5px 0;
+  margin-bottom: -5px;
 }
 .fa-arrow-right {
   margin-left: 5px;
   transition:  margin-left ease 500ms;
 }
-.block-link:hover .fa-arrow-right {
+#explore-link:hover .fa-arrow-right {
   margin-left: 20px;
 }
+/* result stats */
 .result.bold {
   font-weight: bold;
 }
