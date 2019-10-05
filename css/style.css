@@ -125,6 +125,8 @@ form.address-search button:hover {
   padding: 0 25px;
   color: var(--green);
   background-color: var(--white);
+  transition: color ease 500ms,
+              background-color ease 500ms;
 }
 .examples button:first-of-type {
   border-left: none;
