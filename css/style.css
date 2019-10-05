@@ -215,15 +215,19 @@ h3.stat-title {
 }
 /* Footer */
 footer {
+  box-shadow: var(--shadow);
+  background-color: var(--dark-blue);
+  z-index: 1; /* Stop sidebar casting shadow on footer */
+  width: 100%;
+}
+footer .footer-content {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
   align-items: center;
-  width: 100%;
+  width: 950px;
   height: 150px;
-  box-shadow: var(--shadow);
-  background-color: var(--dark-blue);
-  z-index: 1; /* Stop sidebar casting shadow on footer */
+  margin: auto;
 }
 .footer-elm-holder {
   display: flex;
