@@ -214,6 +214,7 @@ footer {
   height: 150px;
   box-shadow: var(--shadow);
   background-color: var(--dark-blue);
+  z-index: 1; /* Stop sidebar casting shadow on footer */
 }
 .footer-elm-holder {
   display: flex;
