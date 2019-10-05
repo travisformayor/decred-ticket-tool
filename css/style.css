@@ -37,17 +37,18 @@ div.top {
 /* Sidebar */
 aside {
   width: 35%;
-  min-width: 310px;
+  min-width: 300px;
   box-shadow: var(--shadow);
   background: var(--sidebar-gradient);
   z-index: 1; /* Puts the shadow on top */
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-end;
-  align-items: center;
+  align-items: flex-start;
 }
 .logo-holder {
-  margin-right: 70px;
+  margin-top: 336px;
+  margin-right: 80px;
 }
 .logo {
   width: 223px;
