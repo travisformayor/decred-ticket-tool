@@ -17,15 +17,18 @@ const maxCheck = 8000; // The api doesn't return more than 8000 results
 // Click an example button
 $('.example-button').on('click', e => {
   let ticketAddress = $(e.target).attr('data-addr');
+  $('.examples button').removeClass('active');
+  $(e.target).addClass('active');
   currentAddr = ticketAddress;
   fetchJSON(ticketAddress);
 })
 // Search box
-  $('.address-search').on('submit', e => {
-    e.preventDefault();
-    let ticketAddress = $("#dcr-addr").val().trim();
-    currentAddr = ticketAddress;
-    fetchJSON(ticketAddress);
+$('.address-search').on('submit', e => {
+  e.preventDefault();
+  $('.examples button').removeClass('active');
+  let ticketAddress = $("#dcr-addr").val().trim();
+  currentAddr = ticketAddress;
+  fetchJSON(ticketAddress);
 })
 
 // ==== Helper Functions ==== //
