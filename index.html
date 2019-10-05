@@ -41,37 +41,52 @@
 
       <section class="results">
         <div class="hidden response-data">
-          <div class="summary">
-            <h1>Overview</h1>
-            <b>Ticket Address: </b><span class="result" id="ticket-addr">...</span>
-            <br>
-            <a id="explore-link" href="" target="_blank">View on Block Explorer</a>
-            <br>
-            <b><span class="result" id="num-txn">...</span> transactions found</b> out of <span class="result"
-              id="max-checked">...</span> searched
-            <br>
-            Age: Staking started <b><span class="result" id="days-hours-old">...</span></b> ago, on <span class="result"
-              id="oldest-date">...</span>
-            <br>
-            Active Time: <b><span class="result" id="days-hours-active">...</span></b> between oldest and newest ticket
-            (<span class="result" id="newest-date">...</span>)
+          <h1 class="result-title">Overview</h1>
+          <div class="overview">
+            <h3 class="stat-title">Address</h3>
+              <div class="addr-holder">
+                <p class="result" id="ticket-addr">...</p>
+              </div>
+              <p class="block-link">
+                <a id="explore-link" href="" target="_blank">View on Block Explorer</a>
+                <i class="fas fa-arrow-right"></i>
+              </p>
+            <h3 class="stat-title">Transactions</h3>
+              <p><span class="result bold" id="num-txn">...</span> found out of <span class="result" id="max-checked">...</span> searched</p>
+            <h3 class="stat-title">Age</h3>
+             <p>Staking started <span class="result bold" id="days-hours-old">...</span>, on <span class="result" id="oldest-date">...</span>
+            <h3 class="stat-title">Active Time</h3>
+              <p><span class="result bold" id="days-hours-active">...</span> between oldest and newest ticket (<span class="result" id="newest-date">...</span>)</p>            
           </div>
-          <div class="current">
-            <h1>Returns</h1>
-            Currently Staking: <b><span class="result" id="currently-staking">...</span> DCR</b>
-            <br>
-            # of active Tickets: <b><span class="result" id="active-tickets">...</span> tickets</b>
-            <br>
-            Staking Rewards (Total): <b><span class="result" id="total-reward">...</span> DCR</b>
-            <br>
-            Staking Rewards (Per Day Active): <b><span class="result" id="daily-reward">...</span> DCR</b>
-            <br>
+          <h1 class="result-title">Returns</h1>
+          <div class="returns">
+            <div class="stat-holder">
+              <h3 class="stat-title">Currently Staking</h3>
+              <p><span class="result bold" id="currently-staking">...</span></p>
+            </div>
+            <div class="stat-holder">
+              <h3 class="stat-title"># of active Tickets</h3>
+              <p><span class="result bold" id="active-tickets">...</span></p>
+            </div>
+            <div class="stat-holder">
+              <h3 class="stat-title">Earned Reward (Total)</h3>
+              <p><span class="result bold" id="total-reward">...</span></p>
+            </div>
+            <div class="stat-holder">
+              <h3 class="stat-title">Earned Reward (Per Days Active)</h3>
+              <p><span class="result bold" id="daily-reward">...</span></p>
+            </div>
           </div>
-          <div class="roi-estimates">
-            <h1>Estimated ROI</h1>
-            Estimated Total ROI: <b><span class="result" id="estimated-roi">...</span></b>
-            <br>
-            Estimated Annualized ROI (Earned per year): <b><span class="result" id="est-annual-roi">...</span></b>
+          <h1 class="result-title">Estimated ROI</h1>
+          <div class="estimated-roi">
+            <div class="stat-holder">
+              <h3 class="stat-title">Estimated Total ROI</h3>
+              <p><span class="result bold" id="estimated-roi">...</span></p>
+            </div>
+            <div class="stat-holder">
+              <h3 class="stat-title">Estimated Annualized ROI</h3>
+              <p><span class="result bold" id="est-annual-roi">...</span></p>
+            </div>
           </div>
         </div>
       </section>

@@ -58,8 +58,8 @@ function handleError(error) {
 
 function handleSubmit() {
   // This function runs right when ajax starts, before results come back
-  // clear out explorer link, hide till get results (done in the populateHtml function)
-  $("a#explore-link").prop("href", "").addClass('hidden')
+  // clear out explorer link, coverup till results arrive (done in the populateHtml function)
+  $("a#explore-link").prop("href", "").addClass('obscured')
   // un-hide results section if hidden, replace values with loading placeholders
   $('.response-data').removeClass('hidden');
   $('.result').text('[loading...]');
@@ -142,20 +142,20 @@ function handleSuccess(response) {
 function populateHtml(info) {
   // clear out current info
   $('.result').text('...');
-  // add link and un-hide
-  $("a#explore-link").prop("href", `https://explorer.dcrdata.org/address/${currentAddr}`).removeClass('hidden')
+  // add link and uncover
+  $("a#explore-link").prop("href", `https://explorer.dcrdata.org/address/${currentAddr}`).removeClass('obscured')
   // grab id's and add in new info
   $('#ticket-addr').text(currentAddr)
-  $('#num-txn').text(info.totalBuys + info.totalVotes + info.totalRevokes)
+  $('#num-txn').text(info.totalBuys + info.totalVotes + info.totalRevokes + " transactions")
   $('#max-checked').text(maxCheck)
-  $('#days-hours-old').text(`${Math.trunc(info.daysSince)} days ${Math.round((info.daysSince%1)*24)} hours`)
+  $('#days-hours-old').text(`${Math.trunc(info.daysSince)} days ${Math.round((info.daysSince%1)*24)} hours ago`)
   $('#oldest-date').text(new Date(info.oldestTime*1000).toLocaleString())
   $('#days-hours-active').text(`${Math.trunc(info.daysBetween)} days ${Math.round((info.daysBetween%1)*24)} hours`)
   $('#newest-date').text(new Date(info.newestTime*1000).toLocaleString())
-  $('#currently-staking').text(round(round(info.runningBalance)))
-  $('#active-tickets').text(info.totalBuys - (info.totalVotes + info.totalRevokes))
-  $('#total-reward').text(round(info.dcrReward))  
-  $('#daily-reward').text(round(info.dcrReward/info.daysBetween))  
+  $('#currently-staking').text(round(round(info.runningBalance)) + " DCR")
+  $('#active-tickets').text(info.totalBuys - (info.totalVotes + info.totalRevokes) + " tickets")
+  $('#total-reward').text(round(info.dcrReward) + " DCR")  
+  $('#daily-reward').text(round(info.dcrReward/info.daysBetween) + " DCR")  
   // ROI = (Current Value of Investment - Cost of Investment) / Cost of Investment
   // In a ROI calculation you need to know the total cost of the investment and the end value.
   // There is an issue determining the total cost of the investment when refunded money is reused to buy new tickets.
