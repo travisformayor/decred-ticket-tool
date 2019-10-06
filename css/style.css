@@ -69,6 +69,7 @@ main {
 section.input {
   /* padding: Top | Right | Bottom | Left */
   padding: 60px 16px 60px 100px;
+  min-width: 260px;
   background: var(--mask);
 }
 .input-title {
@@ -143,6 +144,7 @@ form.address-search button:hover {
 section.results {
   /* padding: Top | Right | Bottom | Left */
   padding: 40px 16px 75px 100px;
+  min-width: 260px;
 }
 .hidden {
   display: none;
@@ -231,6 +233,7 @@ footer {
   background-color: var(--dark-blue);
   z-index: 1; /* Stop sidebar casting shadow on footer */
   width: 100%;
+  min-width: 260px;
 }
 footer .footer-content {
   display: flex;
@@ -279,7 +282,7 @@ img.small-logo, .fab {
   }
   aside {
     width: 100%;
-    min-width: 0;
+    min-width: 260px;
     height: 300px;
     justify-content: flex-start;
   }
@@ -293,8 +296,11 @@ img.small-logo, .fab {
     justify-content: space-between;
   }
   .logo {
-    width: 223px;
-    height: 42px;
+    width: 163px;
+    height: 31px;
+  }
+  .app-title {
+    font-size: 28px;
   }
   /* Stack Footer */
   footer .footer-content {
