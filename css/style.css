@@ -37,7 +37,8 @@ div.top {
 /* Sidebar */
 aside {
   width: 35%;
-  min-width: 300px;
+  padding-left: 16px;
+  min-width: 316px;
   box-shadow: var(--shadow);
   background: var(--sidebar-gradient);
   z-index: 1; /* Puts the shadow on top */
@@ -66,9 +67,8 @@ main {
 }
 /* Search Section */
 section.input {
-  padding-left: 100px;
-  padding-top: 60px;
-  height: 312px;
+  /* padding: Top | Right | Bottom | Left */
+  padding: 60px 16px 60px 100px;
   background: var(--mask);
 }
 .input-title {
@@ -83,7 +83,7 @@ section.input {
 /* Search field */
 form.address-search {
   margin-top: 12px;
-  width: 540px;
+  max-width: 540px;
   display: flex;
   flex-flow: row nowrap;
   border-bottom: 2px solid var(--green);
@@ -141,7 +141,8 @@ form.address-search button:hover {
 }
 /* Results Section */
 section.results {
-  padding-left: 100px;
+  /* padding: Top | Right | Bottom | Left */
+  padding: 40px 16px 75px 100px;
 }
 .hidden {
   display: none;
@@ -152,12 +153,16 @@ section.results {
 h1.result-title {
   font-size: 34px;
   letter-spacing: 1px;
-  margin-top: 40px;
   margin-bottom: 0px;
   color: var(--dark-blue);
+  margin-top: 40px
+}
+h1.result-title:first-of-type {
+  margin-top: 0px
 }
 h3.stat-title {
   font-size: 13px;
+  font-weight: bold;
   margin-top: 1.5em;
   margin-bottom: .5em;
   letter-spacing: normal;
@@ -167,15 +172,23 @@ h3.stat-title {
   color: var(--grey-font);
   font-size: 16px;
 }
+p.stat-subtitle {
+  font-size: 11px;
+  font-weight: bold;
+  margin-top: -.40em;
+  margin-bottom: .5em;
+  letter-spacing: normal;
+  color: var(--subtitle);
+}
 .addr-holder {
   display: inline-block;
-  padding: 10px 20px;
-  border-radius: 4px;
+  padding: 10px;
+  border-radius: 3px;
   background-color: var(--mask);
 }
 #ticket-addr {
   font-size: 13px;
-  letter-spacing: 1px;
+  letter-spacing: .5px;
 }
 /* Link to block explorer */
 .block-link {
@@ -203,15 +216,14 @@ h3.stat-title {
 .returns {
   display: flex;
   flex-flow: row wrap;
-  width: 365px;
+  max-width: 370px;
 }
 .stat-holder {
-  width: 180px;
+  width: 50%;
 }
 .estimated-roi {
   display: flex;
   flex-flow: row nowrap;
-  margin-bottom: 75px;
 }
 /* Footer */
 footer {
@@ -225,7 +237,7 @@ footer .footer-content {
   flex-flow: row nowrap;
   justify-content: space-around;
   align-items: center;
-  width: 950px;
+  max-width: 950px;
   height: 150px;
   margin: auto;
 }
@@ -253,6 +265,74 @@ img.small-logo, .fab {
 }
 
 /* ==== Media Queries ================= */
-/* @media screen and (max-width: 400px) {
-
-} */
+@media screen and (max-width: 910px) {
+  /* Lose the 100px padding on contents left */
+  section.input, section.results {
+    padding-left: 16px;
+  }
+}
+@media screen and (max-width: 830px) {
+  /* Switch sidebar to top of screen */
+  div.top {
+    display: flex;
+    flex-flow: column;
+  }
+  aside {
+    width: 100%;
+    min-width: 0;
+    height: 300px;
+    justify-content: flex-start;
+  }
+  .logo-holder {
+    margin-top: 0px;
+    margin-right: 0px;
+    padding: 40px 0px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .logo {
+    width: 223px;
+    height: 42px;
+  }
+  /* Stack Footer */
+  footer .footer-content {
+    flex-flow: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 320px;
+    margin: auto;
+    padding: 45px 16px;
+  }
+}
+@media screen and (max-width: 525px) {
+  /* Example Buttons */
+  .examples {
+    width: 100%;
+  }
+  .examples button {
+    width: 50%
+  }
+  .examples button:first-of-type {
+    border-left: none;
+    border-bottom: solid 2px var(--green);
+  }
+  .examples button:nth-of-type(2) {
+    border-bottom: solid 2px var(--green);
+  }
+  .examples button:nth-of-type(3) {
+    border-left: none;
+  }
+}
+@media screen and (max-width: 310px) {
+  .addr-holder {
+    padding: 5px;
+  }
+  #ticket-addr {
+    letter-spacing: 0px;
+  }
+  .examples button {
+    letter-spacing: 0px;
+  }
+}
