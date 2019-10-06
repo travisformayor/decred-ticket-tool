@@ -1,6 +1,6 @@
 # Decred Ticket Tool
 
-<https://travisformayor.github.io/decredcheck/>
+<https://travisformayor.github.io/decred-ticket-tool/>
 
 ## Notes
 
