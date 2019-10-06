@@ -218,7 +218,7 @@ p.stat-subtitle {
 .returns {
   display: flex;
   flex-flow: row wrap;
-  max-width: 370px;
+  max-width: 310px;
 }
 .stat-holder {
   width: 50%;
@@ -226,6 +226,7 @@ p.stat-subtitle {
 .estimated-roi {
   display: flex;
   flex-flow: row nowrap;
+  max-width: 310px;
 }
 /* Footer */
 footer {
@@ -268,13 +269,13 @@ img.small-logo, .fab {
 }
 
 /* ==== Media Queries ================= */
-@media screen and (max-width: 910px) {
+@media screen and (max-width: 920px) {
   /* Lose the 100px padding on contents left */
   section.input, section.results {
     padding-left: 16px;
   }
 }
-@media screen and (max-width: 830px) {
+@media screen and (max-width: 840px) {
   /* Switch sidebar to top of screen */
   div.top {
     display: flex;
