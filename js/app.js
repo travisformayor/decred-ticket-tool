@@ -2,12 +2,10 @@
 // - Need to know how much money hodled over what time frames to calc strategy comparisons
 //   - ie: vs btc hodl, not staking, optimal staking est., etc
 // - Confirm there are no other ways a ticket resolves besides Vote or Revoke.
-// - Checking if reward is enough to buy a ticket doesn't work for multiples above 1 extra ticket
 // - Add disclaimers for ROI section explaining assumptions.
-// - Lookup submit button only triggers populate if there is something in the input
-// - Hitting enter on input also triggers search, not just clicking submit
-// - Error message for no or bad response to data displayed on page
-// - Errors: endpoint no response, not a valid address, not a ticket address (check txn types and array response)
+// - Make lookup submit check for blank, only triggers fetch if something to search
+// - Error messages displayed on page:
+//   - endpoint no/bad response, not a valid address, not a ticket address (check txn types and array response), etc
 
 // ==== Global variables ==== //
 let currentAddr = '';
@@ -170,8 +168,9 @@ function populateHtml(info) {
   // Can get the average ticket price and see if the reward is enough to buy more tickets. If so, remove them from the assumed total cost of investment.
   let avgTicketPrice = info.totalBuyCost / info.totalBuys;
   if (info.dcrReward > avgTicketPrice) {
-    // ToDo: what if the difference is multiple tickets worth? This only takes 1 ticket off
-    info.maxBalance -= avgTicketPrice;
+    // Is the difference multiple tickets worth?
+    let multiple = Math.trunc(info.dcrReward / avgTicketPrice)
+    info.maxBalance -= (avgTicketPrice * multiple);
   }
   let estRoi = info.dcrReward/info.maxBalance;
   $('#estimated-roi').text(`${round((estRoi)*100, 2)}%`)
