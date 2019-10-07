@@ -1,6 +1,7 @@
 # Decred Ticket Tool
 
 Get stats and information on your Decred ticket staking history
+
 <https://travisformayor.github.io/decred-ticket-tool/>
 
 ## Decred Tickets Overview
