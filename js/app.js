@@ -144,39 +144,46 @@ function populateHtml(info) {
   // clear out current info
   $('.result').text('...');
   // add link and uncover
-  $("a#explore-link").prop("href", `https://explorer.dcrdata.org/address/${currentAddr}`).removeClass('obscured')
+  $("a#explore-link").prop("href", `https://explorer.dcrdata.org/address/${currentAddr}`).removeClass('obscured');
   // grab id's and add in new info
-  $('#ticket-addr').text(currentAddr)
-  $('#num-txn').text(info.totalBuys + info.totalVotes + info.totalRevokes + " transactions")
-  $('#max-checked').text(maxCheck)
-  $('#days-hours-old').text(`${Math.trunc(info.daysSince)} days ${Math.round((info.daysSince%1)*24)} hours ago`)
-  $('#oldest-date').text(new Date(info.oldestTime*1000).toLocaleString())
-  $('#days-hours-active').text(`${Math.trunc(info.daysBetween)} days ${Math.round((info.daysBetween%1)*24)} hours`)
-  $('#newest-date').text(new Date(info.newestTime*1000).toLocaleString())
-  $('#currently-staking').text(round(round(info.runningBalance)) + " DCR")
-  $('#active-tickets').text(info.totalBuys - (info.totalVotes + info.totalRevokes) + " tickets")
-  $('#total-reward').text(round(info.dcrReward) + " DCR")  
-  $('#daily-reward').text(round(info.dcrReward/info.daysBetween) + " DCR")  
-  // ROI = (Current Value of Investment - Cost of Investment) / Cost of Investment
-  // In a ROI calculation you need to know the total cost of the investment and the end value.
-  // There is an issue determining the total cost of the investment when refunded money is reused to buy new tickets.
-  // One ticket bought over and over, or a lot of tickets bought at once? Bought with reused money vs total value used to buy tickets.
-  // Ticket address tracks ticket activity. Tracking a wallet's balance would involve revealing a public address seed or a lot of other guess work.
-  // Solution used: For accounts where a set amount is being invested without major change, an estimate can be made.
-  // Look for the max staked balance held at a single time (max concurrent ticket value) to guess total funds the wallet had access to at once.
-  // This doesn't work if wallet's balance changes a lot over time, and stake rewards can also increase the wallet's 'stake-able' balance.
-  // Can get the average ticket price and see if the reward is enough to buy more tickets. If so, remove them from the assumed total cost of investment.
-  let avgTicketPrice = info.totalBuyCost / info.totalBuys;
-  if (info.dcrReward > avgTicketPrice) {
-    // Is the difference multiple tickets worth?
-    let multiple = Math.trunc(info.dcrReward / avgTicketPrice)
-    info.maxBalance -= (avgTicketPrice * multiple);
+  $('#ticket-addr').text(currentAddr);
+  $('#num-txn').text(info.totalBuys + info.totalVotes + info.totalRevokes + " transactions");
+  $('#max-checked').text(maxCheck);
+  $('#days-hours-old').text(`${Math.trunc(info.daysSince)} days ${Math.round((info.daysSince%1)*24)} hours ago`);
+  $('#oldest-date').text(new Date(info.oldestTime*1000).toLocaleString());
+  $('#days-hours-active').text(`${Math.trunc(info.daysBetween)} days ${Math.round((info.daysBetween%1)*24)} hours`);
+  $('#newest-date').text(new Date(info.newestTime*1000).toLocaleString());
+  $('#currently-staking').text(round(round(info.runningBalance)) + " DCR");
+  $('#total-reward').text(round(info.dcrReward) + " DCR");
+  $('#daily-reward').text(round(info.dcrReward/info.daysBetween) + " DCR");
+  // Fields that don't calc correctly when txn's are over max...
+  if (info.totalBuys + info.totalVotes + info.totalRevokes >= maxCheck) {
+    $('#active-tickets').text('? tickets');
+    $('#estimated-roi').text('? %');
+    $('#est-annual-roi').text('? %');
+  } else {
+    $('#active-tickets').text(info.totalBuys - (info.totalVotes + info.totalRevokes) + " tickets")
+    // ROI = (Current Value of Investment - Cost of Investment) / Cost of Investment
+    // In a ROI calculation you need to know the total cost of the investment and the end value.
+    // There is an issue determining the total cost of the investment when refunded money is reused to buy new tickets.
+    // One ticket bought over and over, or a lot of tickets bought at once? Bought with reused money vs total value used to buy tickets.
+    // Ticket address tracks ticket activity. Tracking a wallet's balance would involve revealing a public address seed or a lot of other guess work.
+    // Solution used: For accounts where a set amount is being invested without major change, an estimate can be made.
+    // Look for the max staked balance held at a single time (max concurrent ticket value) to guess total funds the wallet had access to at once.
+    // This doesn't work if wallet's balance changes a lot over time, and stake rewards can also increase the wallet's 'stake-able' balance.
+    // Can get the average ticket price and see if the reward is enough to buy more tickets. If so, remove them from the assumed total cost of investment.
+    let avgTicketPrice = info.totalBuyCost / info.totalBuys;
+    if (info.dcrReward > avgTicketPrice) {
+      // Is the difference multiple tickets worth?
+      let multiple = Math.trunc(info.dcrReward / avgTicketPrice);
+      info.maxBalance -= (avgTicketPrice * multiple);
+    }
+    let estRoi = info.dcrReward/info.maxBalance;
+    $('#estimated-roi').text(`${round((estRoi)*100, 2)}%`);
+    // Annualized ROI = [(1+ROI)^1/n −1] × 100%
+    // where n = Number of years for which the investment is held
+    let n = info.daysBetween / 365;
+    let annRoi = (Math.pow((1+(estRoi)),(1/n))-1);
+    $('#est-annual-roi').text(`${round((annRoi)*100, 2)}%`);
   }
-  let estRoi = info.dcrReward/info.maxBalance;
-  $('#estimated-roi').text(`${round((estRoi)*100, 2)}%`)
-  // Annualized ROI = [(1+ROI)^1/n −1] × 100%
-  // where n = Number of years for which the investment is held
-  let n = info.daysBetween / 365
-  let annRoi = (Math.pow((1+(estRoi)),(1/n))-1)
-  $('#est-annual-roi').text(`${round((annRoi)*100, 2)}%`)
 }
