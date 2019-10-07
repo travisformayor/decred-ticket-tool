@@ -4,6 +4,8 @@ Get stats and information on your Decred ticket staking history
 
 <https://travisformayor.github.io/decred-ticket-tool/>
 
+![Screenshot](/img/tickettoolscreen.png)
+
 ## Decred Tickets Overview
 
 The cryptocurrency Decred uses a ticket buying system for public voting on proposals and consensus changes, as part of its decentralized governance. Tickets resolve into votes overtime, refunding the original cost. Participants (or stakeholders/stakers) who don't want to leave their wallets online need to know when it's time to re-buy any tickets. Additionally, there is a small reward for locking up (or staking) decred into these tickets. An active stakeholder who is re-buying tickets frequently can earn a higher return and participate in more votes.
