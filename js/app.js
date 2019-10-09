@@ -1,4 +1,5 @@
 // ToDo:
+// - Helper function that checks for valid address formatting
 // - Need to know how much money hodled over what time frames to calc strategy comparisons
 //   - ie: vs btc hodl, not staking, optimal staking est., etc
 // - Confirm there are no other ways a ticket resolves besides Vote or Revoke.
@@ -7,29 +8,11 @@
 // - Error messages displayed on page:
 //   - endpoint no/bad response, not a valid address, not a ticket address (check txn types and array response), etc
 
-// ==== Global variables =================== //
+// ==== Global variables ======================== //
 let ticketAddress = '';
 const maxCheck = 8000; // The api doesn't return more than 8000 results
 
-// ==== Check for URL Parameters =========== //
-
-// ==== Event Handlers ===================== //
-// Click an example button
-$('.example-button').on('click', e => {
-  ticketAddress = $(e.target).attr('data-addr');
-  $('.examples button').removeClass('active');
-  $(e.target).addClass('active');
-  fetchJSON(ticketAddress);
-})
-// Search box
-$('.address-search').on('submit', e => {
-  e.preventDefault();
-  $('.examples button').removeClass('active');
-  ticketAddress = $("#dcr-addr").val().trim();
-  fetchJSON(ticketAddress);
-})
-
-// ==== Helper Functions =================== //
+// ==== Helper Functions ======================== //
 function round(number, precision) {
   if (!precision) {
     // Default is 4 decimal places if not specified
@@ -39,7 +22,48 @@ function round(number, precision) {
   return Math.trunc(number*x)/x
 }
 
-// ==== Ajax request ======================= //
+function getParams() {
+  let params = (new URL(document.location)).searchParams;
+  return params.get('address');
+}
+
+function updateParam(address) {
+  window.history.pushState('', '', `?address=${address}`);
+}
+
+// ==== Check for URL Parameters on page load === //
+ticketAddress = getParams();
+if (ticketAddress) {
+  fetchJSON(ticketAddress);
+}
+
+// ==== Event Handlers ========================== //
+// When a param change happens
+window.onpopstate = e => {
+  newAddress = getParams();
+  if (ticketAddress != newAddress) {
+    ticketAddress = newAddress
+    fetchJSON(ticketAddress);
+  }
+}
+// Click an example button
+$('.example-button').on('click', e => {
+  ticketAddress = $(e.target).attr('data-addr');
+  $('.examples button').removeClass('active');
+  $(e.target).addClass('active');
+  updateParam(ticketAddress);
+  fetchJSON(ticketAddress);
+})
+// Search box
+$('.address-search').on('submit', e => {
+  e.preventDefault();
+  $('.examples button').removeClass('active');
+  ticketAddress = $("#dcr-addr").val().trim();
+  updateParam(ticketAddress);
+  fetchJSON(ticketAddress);
+})
+
+// ==== Ajax request ============================ //
 function fetchJSON(addr) {
   const url = `https://explorer.dcrdata.org/api/address/${addr}/count/${maxCheck}/raw`;
   const request = {
@@ -52,11 +76,9 @@ function fetchJSON(addr) {
   }
   $.ajax(request);
 }
-
 function handleError(error) {
   console.log({error});
 }
-
 function handleSubmit() {
   // This function runs right when ajax starts, before results come back
   // clear out explorer link, coverup till results arrive (done in the populateHtml function)
@@ -65,7 +87,6 @@ function handleSubmit() {
   $('.response-data').removeClass('hidden');
   $('.result').text('[loading...]');
 }
-
 function handleSuccess(response) {
   // The function runs if the ajax results come back with a success response type
 
@@ -140,7 +161,7 @@ function handleSuccess(response) {
   populateHtml(info);
 }
 
-// ==== Populate the data on the page ====== //
+// ==== Populate the data on the page =========== //
 function populateHtml(info) {
   // clear out current info
   $('.result').text('...');
