@@ -7,11 +7,13 @@
 // - Error messages displayed on page:
 //   - endpoint no/bad response, not a valid address, not a ticket address (check txn types and array response), etc
 
-// ==== Global variables ==== //
+// ==== Global variables =================== //
 let currentAddr = '';
 const maxCheck = 8000; // The api doesn't return more than 8000 results
 
-// ==== Event Handlers ==== //
+// ==== Check for URL Parameters =========== //
+
+// ==== Event Handlers ===================== //
 // Click an example button
 $('.example-button').on('click', e => {
   let ticketAddress = $(e.target).attr('data-addr');
@@ -29,7 +31,7 @@ $('.address-search').on('submit', e => {
   fetchJSON(ticketAddress);
 })
 
-// ==== Helper Functions ==== //
+// ==== Helper Functions =================== //
 function round(number, precision) {
   if (!precision) {
     // Default is 4 decimal places if not specified
@@ -39,7 +41,7 @@ function round(number, precision) {
   return Math.trunc(number*x)/x
 }
 
-// ==== Ajax request ==== //
+// ==== Ajax request ======================= //
 function fetchJSON(addr) {
   const url = `https://explorer.dcrdata.org/api/address/${addr}/count/${maxCheck}/raw`;
   const request = {
@@ -140,6 +142,7 @@ function handleSuccess(response) {
   populateHtml(info);
 }
 
+// ==== Populate the data on the page ====== //
 function populateHtml(info) {
   // clear out current info
   $('.result').text('...');
