@@ -8,7 +8,7 @@
 //   - endpoint no/bad response, not a valid address, not a ticket address (check txn types and array response), etc
 
 // ==== Global variables =================== //
-let currentAddr = '';
+let ticketAddress = '';
 const maxCheck = 8000; // The api doesn't return more than 8000 results
 
 // ==== Check for URL Parameters =========== //
@@ -16,18 +16,16 @@ const maxCheck = 8000; // The api doesn't return more than 8000 results
 // ==== Event Handlers ===================== //
 // Click an example button
 $('.example-button').on('click', e => {
-  let ticketAddress = $(e.target).attr('data-addr');
+  ticketAddress = $(e.target).attr('data-addr');
   $('.examples button').removeClass('active');
   $(e.target).addClass('active');
-  currentAddr = ticketAddress;
   fetchJSON(ticketAddress);
 })
 // Search box
 $('.address-search').on('submit', e => {
   e.preventDefault();
   $('.examples button').removeClass('active');
-  let ticketAddress = $("#dcr-addr").val().trim();
-  currentAddr = ticketAddress;
+  ticketAddress = $("#dcr-addr").val().trim();
   fetchJSON(ticketAddress);
 })
 
@@ -147,9 +145,9 @@ function populateHtml(info) {
   // clear out current info
   $('.result').text('...');
   // add link and uncover
-  $("a#explore-link").prop("href", `https://explorer.dcrdata.org/address/${currentAddr}`).removeClass('obscured');
+  $("a#explore-link").prop("href", `https://explorer.dcrdata.org/address/${ticketAddress}`).removeClass('obscured');
   // grab id's and add in new info
-  $('#ticket-addr').text(currentAddr);
+  $('#ticket-addr').text(ticketAddress);
   $('#num-txn').text(info.totalBuys + info.totalVotes + info.totalRevokes + " transactions");
   $('#max-checked').text(maxCheck);
   $('#days-hours-old').text(`${Math.trunc(info.daysSince)} days ${Math.round((info.daysSince%1)*24)} hours ago`);
